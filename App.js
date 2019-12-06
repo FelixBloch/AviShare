@@ -17,7 +17,7 @@ import Loading from './components/Loading';
 
 export default function App() {
   const firebaseConfig = {
-    apiKey: "AIzaSyCxIIXaMBnpMU5crd9tUBN6J4mcN-nuBg8",
+    apiKey: "API KEY",
     authDomain: "avishare-192ea.firebaseapp.com",
     databaseURL: "https://avishare-192ea.firebaseio.com",
     projectId: "avishare-192ea",

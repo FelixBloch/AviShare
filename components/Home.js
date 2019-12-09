@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
-import { Button, ListItem } from 'react-native-elements';
+import { View, Text, ScrollView, SafeAreaView } from 'react-native';
+import { Button, ListItem, Tile } from 'react-native-elements';
 import * as firebase from 'firebase';
 
 const Home = (props) => {
@@ -17,28 +17,58 @@ const Home = (props) => {
             const psts = Object.values(data);
             setPosts(psts);
         });
+        setCurrentUser(firebase.auth());
     }, []);
 
-    // setCurrentUser(state);
+    console.log(currentUser)
+
+    if (!currentUser) {
+        () => props.navigation.navigate('Login');
+    } else if (posts.isEmpty()) {
+        return (
+            <Text>NOTHING TO SHOW HERE YET</Text>
+        )
+    }
 
     return (
-        <View>
+        <View style={{ flex: 1 }}>
             <Button onPress={() => navigate('CreatePost')} title="Create a new Post" />
             <Text>
                 Hi {currentUser && currentUser.email}!
             </Text>
-            {
-                posts.map((l, i) => (
-                    <ListItem
-                        key={i}
-                        title={l.title}
-                        subtitle={l.text}
-                        onPress={() => navigate('Post')}
-                        bottomDivider
-                        chevron
-                    />
-                ))
-            }
+            <SafeAreaView style={{ flex: 1 }}>
+                <ScrollView>
+                    {
+                        posts.map((l, i) => (
+                            // <Tile
+                            // key={i}
+                            //     //imageSrc={require('./img/path')}
+                            //     title={l.title}
+                            //     icon={{ name: 'play-circle', type: 'font-awesome' }} // optional
+                            //     contentContainerStyle={{ height: 70 }}
+                            // >
+                            //     <View
+                            //         style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}
+                            //     >
+                            //         <Text>{l.text}</Text>
+                            //         <Text>{l.location}</Text>
+                            //     </View>
+                            // </Tile>
+
+
+                            <ListItem
+                                key={i}
+                                title={l.title}
+                                subtitle={l.text}
+                                onPress={() => navigate('Post', l)}
+                                bottomDivider
+                                chevron
+                            />
+
+                        ))
+                    }
+                </ScrollView>
+            </SafeAreaView>
         </View>
     );
 };

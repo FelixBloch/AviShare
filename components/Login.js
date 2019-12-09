@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
-import { View, Text } from 'react-native';
-import { Button, TextInput } from 'react-native-elements';
+import React, { useState } from 'react';
+import { View, Text, TextInput } from 'react-native';
+import { Button,  } from 'react-native-elements';
 import * as firebase from 'firebase';
 
 const Login = (props) => {
     navigationOptions = { title: 'Login', };
+
+    const { navigate } = props.navigation;
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,7 +16,7 @@ const Login = (props) => {
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
-            .then(() => props.navigation.navigate('Home'))
+            .then(() => navigate('Home'))
             .catch(error => setErrorMessage({ errorMessage: error.message }))
     }
 
@@ -42,7 +44,7 @@ const Login = (props) => {
             <View>
                 <Text>
                     Don't have an account?
-                    <Text onPress={() => props.navigation.navigate('Register')} style={{ color: '#e93766', fontSize: 18 }}>
+                    <Text onPress={() => navigate('Register')} style={{ color: '#e93766', fontSize: 18 }}>
                         Sign Up
                     </Text>
                 </Text>

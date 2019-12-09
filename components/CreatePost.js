@@ -6,6 +6,8 @@ import * as firebase from 'firebase';
 const CreatePost = (props) => {
     navigationOptions = { title: 'CreatePost', };
 
+    const { navigate } = props.navigation;
+
     firebase.database().ref('items/')
 
     const [title, setTitle] = useState('');
@@ -19,10 +21,9 @@ const CreatePost = (props) => {
         setTitle('');
         setText('');
         setLocation('');
-        navigate('Post');
+        navigate('Home',);
     }
 
-    const { navigate } = props.navigation;
     return (
         <View>
             <Text>This is the Create Post page</Text>

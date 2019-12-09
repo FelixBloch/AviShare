@@ -1,9 +1,9 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { createAppContainer, createDrawerNavigator, } from 'react-navigation';
+import React, { useState, } from 'react';
+import { Text, View } from 'react-native';
+import { Header, Icon } from 'react-native-elements';
+import { createAppContainer, } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-// import { DrawerItems } from 'react-navigation';
-import { Button, ThemeProvider, Header, ListItem } from 'react-native-elements';
+import { createDrawerNavigator, DrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import * as firebase from 'firebase';
 
 import Home from './components/Home';
@@ -15,7 +15,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Loading from './components/Loading';
 
-export default function App() {
+const App = (props) => {
   const firebaseConfig = {
     apiKey: "AIzaSyCxIIXaMBnpMU5crd9tUBN6J4mcN-nuBg8",
     authDomain: "avishare-192ea.firebaseapp.com",
@@ -30,7 +30,6 @@ export default function App() {
   const AppNavigator = createStackNavigator({
     Loading: { screen: Loading, },
     Home: { screen: Home, },
-    Loading: { screen: Loading, },
     Register: { screen: Register, },
     Login: { screen: Login, },
     Post: { screen: Post },
@@ -48,34 +47,20 @@ export default function App() {
     {
       headerMode: 'none',
     },
-
   );
-
-  // const DrawerNavigator = createDrawerNavigator({
-  //   Settings: { screen: Settings },
-  //   Profile: { screen: Profile },
-  // },
-  //   {
-  //     drawerPosition: 'left',
-  //     contentComponent: CustomDrawerNavigation,
-  //     drawerOpenRoute: 'DrawerOpen',
-  //     drawerCloseRoute: 'DrawerClose',
-  //     drawerToggleRoute: 'DrawerToggle',
-  //     drawerWidth: (width / 3) * 2
-  //   }
-  // );
 
   const AppContainer = createAppContainer(AppNavigator);
 
   return (
     <>
       <Header
-        leftComponent={{ icon: 'menu', color: '#fff' }}
-        // leftComponent={<Icon name='menu' /*color='#fff'*/ onPress={() => props.navigation.openDrawer()} />}
+        leftComponent={ <Icon name="menu" color="#fff" /> } //onPress={() => navigation.navigate('DrawerToggle')}
         centerComponent={{ text: 'AviShare', style: { color: '#fff' } }}
-        rightComponent={{ icon: 'home', color: '#fff' }}
+        rightComponent={{ icon: 'home', color: '#fff' } }
       />
       <AppContainer />
     </>
   );
 }
+
+export default App;

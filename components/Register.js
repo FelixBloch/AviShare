@@ -5,6 +5,8 @@ import * as firebase from 'firebase';
 const Register = (props) => {
     navigationOptions = { title: 'Register', };
 
+    const { navigate } = props.navigation;
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(null);
@@ -13,18 +15,19 @@ const Register = (props) => {
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
-            .then(() => props.navigation.navigate('Home'))
+            .then(() => navigate('Home'))
             .catch(error => setErrorMessage({ errorMessage: error.message }))
+            console.log(errorMessage)
     }
 
 
     return (
         <View>
             <Text style={{ color: '#e93766', fontSize: 40 }}>Sign Up</Text>
-            {errorMessage &&
+            {/* {errorMessage &&
                 <Text style={{ color: 'red' }}>
                     {errorMessage}
-                </Text>}
+                </Text>} */}
             <TextInput
                 placeholder="Email"
                 autoCapitalize="none"
@@ -40,7 +43,7 @@ const Register = (props) => {
             />
             <Button title="Sign Up" color="#e93766" onPress={handleSignUp} />
             <View>
-                <Text> Already have an account? <Text onPress={() => props.navigation.navigate('Login')} style={{ color: '#e93766', fontSize: 18 }}> Login </Text></Text>
+                <Text> Already have an account? <Text onPress={() => navigate('Login')} style={{ color: '#e93766', fontSize: 18 }}> Login </Text></Text>
             </View>
         </View>
     )

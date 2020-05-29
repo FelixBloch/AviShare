@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput } from 'react-native';
-import { Button,  } from 'react-native-elements';
+import { Button, Header } from 'react-native-elements';
 import * as firebase from 'firebase';
 
 const Login = (props) => {
@@ -10,23 +10,29 @@ const Login = (props) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState(null);
+    const [errorCode, setErrorCode] = useState(null);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleLogin = () => {
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then(() => navigate('Home'))
-            .catch(error => setErrorMessage({ errorMessage: error.message }))
+            .catch(function(error) {
+                setErrorCode(error.code)
+                setErrorMessage(error.message)
+            });
     }
 
     return (
         <View>
+            <Header
+                centerComponent={{ text: 'AviShare', style: { color: '#fff' } }}
+            />
             <Text style={{ color: '#e93766', fontSize: 40 }}>Login</Text>
-            {errorMessage &&
-                <Text style={{ color: 'red' }}>
+            <Text style={{ color: 'red' }}>
                     {errorMessage}
-                </Text>}
+                </Text>
             <TextInput
                 autoCapitalize="none"
                 placeholder="Email"

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, SafeAreaView } from 'react-native';
-import { Button, ListItem, Tile } from 'react-native-elements';
+import { Header, Icon, Button, ListItem, Tile } from 'react-native-elements';
+import { withNavigation } from 'react-navigation';
+import { DrawerActions } from 'react-navigation-drawer';
 import * as firebase from 'firebase';
 
 const Home = (props) => {
@@ -17,14 +19,14 @@ const Home = (props) => {
             const psts = Object.values(data);
             setPosts(psts);
         });
-        setCurrentUser(firebase.auth());
+        setCurrentUser(firebase.auth().currentUser);
     }, []);
 
     console.log(currentUser)
 
     if (!currentUser) {
         () => props.navigation.navigate('Login');
-    } else if (posts.isEmpty()) {
+    } else if (/*posts.isEmpty()*/ posts && posts.length < 0) {
         return (
             <Text>NOTHING TO SHOW HERE YET</Text>
         )
@@ -32,6 +34,11 @@ const Home = (props) => {
 
     return (
         <View style={{ flex: 1 }}>
+            <Header
+                leftComponent={<Icon name='menu' color='#fff' onPress={() => props.navigation.dispatch(DrawerActions.openDrawer())} />} //
+                centerComponent={{ text: 'AviShare', style: { color: '#fff' } }}
+                rightComponent={<Icon name='home' color='#fff' onPress={() => navigate('Home')} />}
+            />
             <Button onPress={() => navigate('CreatePost')} title="Create a new Post" />
             <Text>
                 Hi {currentUser && currentUser.email}!
@@ -69,10 +76,11 @@ const Home = (props) => {
                     }
                 </ScrollView>
             </SafeAreaView>
+            <Button onPress={() => firebase.auth().signOut()} title="Sign out" />
         </View>
     );
 };
 
 Home.navigationOptions = ({ navigate }) => ({ title: 'Home' });
 
-export default Home;
+export default withNavigation(Home);
